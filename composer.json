@@ -1,0 +1,30 @@
+{
+    "name": "javihgil/doctrine-pagination-bundle",
+    "description": "Doctrine pagination bundle",
+    "type": "bundle",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Jhg\\DoctrinePaginationBundle\\": ""
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.2.*",
+        "mockery/mockery": "0.9.*"
+    },
+    "require": {
+        "symfony/http-kernel": "~2.5"
+    },
+    "scripts": {
+        "test": [
+            "vendor/bin/phpunit"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
