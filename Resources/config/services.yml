@@ -1,0 +1,5 @@
+services:
+    jhg_pagination_param_converter_listener:
+        class: Jhg\DoctrinePaginationBundle\EventListener\PaginationParamConverterListener
+        tags:
+            - { name: kernel.event_subscriber }
