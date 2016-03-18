@@ -15,7 +15,8 @@
         "mockery/mockery": "0.9.*"
     },
     "require": {
-        "symfony/http-kernel": "~2.5"
+        "symfony/http-kernel": "~2.5",
+        "javihgil/doctrine-pagination": "~1.0"
     },
     "scripts": {
         "test": [

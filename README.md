@@ -7,7 +7,7 @@ This bundle helps to paginate doctrine results and use paginated collections.
 To install this bundle just execute:
 
 ```bash
-$ composer require doctrine-pagination-bundle:~1.0
+$ composer require javihgil/doctrine-pagination-bundle:~1.0
 ```
 
 ## Configure Repository
