@@ -162,12 +162,12 @@ class PaginationExtension extends \Twig_Extension
      */
     public function getSortTogglerUrl($sortValue, $sortParameterName = 'sort', $orderParameterName = 'order', $pageParameterName = 'page', $referenceType = RouterInterface::ABSOLUTE_PATH)
     {
-        if ($this->isSortedBy($sortParameterName, $sortValue)) {
-            $inverseOrder = $this->isOrdered($orderParameterName, 'asc') ? 'desc' : 'asc';
+        if ($this->isSortedBy($sortValue, null, $sortParameterName)) {
+            $inverseOrder = $this->isOrdered('asc', $orderParameterName) ? 'desc' : 'asc';
 
-            return $this->getSortUrl($sortParameterName, $sortValue, $orderParameterName, $inverseOrder, $pageParameterName, $referenceType);
+            return $this->getSortUrl($sortValue, $inverseOrder, $sortParameterName, $orderParameterName, $pageParameterName, $referenceType);
         } else {
-            return $this->getSortUrl($sortParameterName, $sortValue, $orderParameterName, 'asc', $pageParameterName, $referenceType);
+            return $this->getSortUrl($sortValue, 'asc', $sortParameterName, $orderParameterName, $pageParameterName, $referenceType);
         }
     }
 
