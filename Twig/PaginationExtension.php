@@ -53,77 +53,122 @@ class PaginationExtension extends \Twig_Extension
             new \Twig_SimpleFunction('page_url', [$this, 'getPageUrl']),
             new \Twig_SimpleFunction('is_sorted_by', [$this, 'isSortedBy']),
             new \Twig_SimpleFunction('is_ordered', [$this, 'isOrdered']),
+            new \Twig_SimpleFunction('sort_url', [$this, 'getSortUrl']),
+            new \Twig_SimpleFunction('sort_toggler_url', [$this, 'getSortTogglerUrl']),
         ];
     }
 
     /**
      * @param PaginatedArrayCollection $collection
-     * @param string                   $pageField
+     * @param string                   $pageParameterName
      * @param int                      $referenceType
      *
      * @return string|null
      */
-    public function getNextPageUrl(PaginatedArrayCollection $collection, $pageField, $referenceType = RouterInterface::ABSOLUTE_PATH)
+    public function getNextPageUrl(PaginatedArrayCollection $collection, $pageParameterName = 'page', $referenceType = RouterInterface::ABSOLUTE_PATH)
     {
         $nextPage = $collection->getNextPage();
 
-        return $nextPage ? $this->getPageUrl($pageField, $nextPage, $referenceType) : null;
+        return $nextPage ? $this->getPageUrl($nextPage, $pageParameterName, $referenceType) : null;
     }
 
     /**
      * @param PaginatedArrayCollection $collection
-     * @param string                   $pageField
+     * @param string                   $pageParameterName
      * @param int                      $referenceType
      *
      * @return string|null
      */
-    public function getPrevPageUrl(PaginatedArrayCollection $collection, $pageField, $referenceType = RouterInterface::ABSOLUTE_PATH)
+    public function getPrevPageUrl(PaginatedArrayCollection $collection, $pageParameterName = 'page', $referenceType = RouterInterface::ABSOLUTE_PATH)
     {
         $prevPage = $collection->getPrevPage();
 
-        return $prevPage ? $this->getPageUrl($pageField, $prevPage, $referenceType) : null;
+        return $prevPage ? $this->getPageUrl($prevPage, $pageParameterName, $referenceType) : null;
     }
 
     /**
-     * @param string $pageField
      * @param int    $page
+     * @param string $pageParameterName
      * @param int    $referenceType
      *
      * @return string
      */
-    public function getPageUrl($pageField, $page, $referenceType = RouterInterface::ABSOLUTE_PATH)
+    public function getPageUrl($page, $pageParameterName = 'page', $referenceType = RouterInterface::ABSOLUTE_PATH)
     {
-        $params = array_merge($this->getRequest()->attributes->get('_route_params'), $this->getRequest()->query->all(), [$pageField=>$page]);
+        $params = array_merge($this->getRequest()->attributes->get('_route_params'), $this->getRequest()->query->all(), [$pageParameterName=>$page]);
 
         return $this->router->generate($this->getRequest()->attributes->get('_route'), $params, $referenceType);
     }
 
     /**
-     * @param string      $field
-     * @param mixed       $value
-     * @param string|null $orderedField
-     * @param string|null $orderedDirection
+     * @param string      $sortValue
+     * @param string|null $orderValue
+     * @param string      $sortParameterName
+     * @param string      $orderParameterName
      *
      * @return bool
      */
-    public function isSortedBy($field, $value, $orderedField = null, $orderedDirection = null)
+    public function isSortedBy($sortValue, $orderValue = null, $sortParameterName = 'sort', $orderParameterName = 'order')
     {
-        if ($orderedField && $orderedDirection && !$this->isOrdered($orderedField, $orderedDirection)) {
+        if ($orderValue && !$this->isOrdered($orderValue, $orderParameterName)) {
             return false;
         }
 
-        return $this->getRequest()->query->get($field) == $value;
+        return $this->getRequest()->query->get($sortParameterName) == $sortValue;
     }
 
     /**
-     * @param string $field
-     * @param string $direction
+     * @param string $orderValue
+     * @param string $orderParameterName
      *
      * @return bool
      */
-    public function isOrdered($field, $direction)
+    public function isOrdered($orderValue, $orderParameterName = 'order')
     {
-        return $this->getRequest()->query->get($field) == $direction;
+        return $this->getRequest()->query->get($orderParameterName) == $orderValue;
+    }
+
+    /**
+     * @param string $sort
+     * @param string $order
+     * @param string $sortParameterName
+     * @param string $orderParameterName
+     * @param string $pageParameterName
+     * @param int    $referenceType
+     *
+     * @return string
+     */
+    public function getSortUrl($sort, $order, $sortParameterName = 'sort', $orderParameterName = 'order', $pageParameterName = 'page', $referenceType = RouterInterface::ABSOLUTE_PATH)
+    {
+        $params = array_merge(
+            $this->getRequest()->attributes->get('_route_params'),
+            $this->getRequest()->query->all(),
+            [$sortParameterName=>$sort],
+            [$orderParameterName=>$order],
+            [$pageParameterName=>1]
+        );
+
+        return $this->router->generate($this->getRequest()->attributes->get('_route'), $params, $referenceType);
+    }
+
+    /**
+     * @param string $sortValue
+     * @param string $sortParameterName
+     * @param string $orderParameterName
+     * @param string $pageParameterName
+     * @param int    $referenceType
+     *
+     * @return string
+     */
+    public function getSortTogglerUrl($sortValue, $sortParameterName = 'sort', $orderParameterName = 'order', $pageParameterName = 'page', $referenceType = RouterInterface::ABSOLUTE_PATH)
+    {
+        if ($this->isSortedBy($sortParameterName, $sortValue)) {
+            $inverseOrder = $this->isOrdered($orderParameterName, 'asc') ? 'desc' : 'asc';
+
+            return $this->getSortUrl($sortParameterName, $sortValue, $orderParameterName, $inverseOrder, $pageParameterName, $referenceType);
+        } else {
+            return $this->getSortUrl($sortParameterName, $sortValue, $orderParameterName, 'asc', $pageParameterName, $referenceType);
+        }
     }
 
     /**
