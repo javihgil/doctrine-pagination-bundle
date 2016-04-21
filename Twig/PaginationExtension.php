@@ -4,6 +4,7 @@ namespace Jhg\DoctrinePaginationBundle\Twig;
 
 use Jhg\DoctrinePagination\Collection\PaginatedArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -12,14 +13,26 @@ use Symfony\Component\Routing\RouterInterface;
 class PaginationExtension extends \Twig_Extension
 {
     /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
+    /**
      * @var RouterInterface
      */
     protected $router;
 
     /**
-     * @var Request
+     * PaginationExtension constructor.
+     *
+     * @param RequestStack    $requestStack
+     * @param RouterInterface $router
      */
-    protected $request;
+    public function __construct(RequestStack $requestStack, RouterInterface $router)
+    {
+        $this->requestStack = $requestStack;
+        $this->router = $router;
+    }
 
     /**
      * {@inheritdoc}
@@ -80,9 +93,9 @@ class PaginationExtension extends \Twig_Extension
      */
     public function getPageUrl($pageField, $page, $referenceType = RouterInterface::ABSOLUTE_PATH)
     {
-        $params = array_merge($this->request->attributes->get('_route_params'), $this->request->query, [$pageField=>$page]);
+        $params = array_merge($this->getRequest()->attributes->get('_route_params'), $this->getRequest()->query->all(), [$pageField=>$page]);
 
-        return $this->router->generate($this->request->attributes->get('_route'), $params, $referenceType);
+        return $this->router->generate($this->getRequest()->attributes->get('_route'), $params, $referenceType);
     }
 
     /**
@@ -99,7 +112,7 @@ class PaginationExtension extends \Twig_Extension
             return false;
         }
 
-        return $this->request->query->get($field) == $value;
+        return $this->getRequest()->query->get($field) == $value;
     }
 
     /**
@@ -110,6 +123,14 @@ class PaginationExtension extends \Twig_Extension
      */
     public function isOrdered($field, $direction)
     {
-        return $this->request->query->get($field) == $direction;
+        return $this->getRequest()->query->get($field) == $direction;
+    }
+
+    /**
+     * @return null|Request
+     */
+    protected function getRequest()
+    {
+        return $this->requestStack->getCurrentRequest();
     }
 }

@@ -3,3 +3,9 @@ services:
         class: Jhg\DoctrinePaginationBundle\EventListener\PaginationParamConverterListener
         tags:
             - { name: kernel.event_subscriber }
+
+    jhg.doctrine_pagination.pagination.twig_extension:
+        class: Jhg\DoctrinePaginationBundle\Twig\PaginationExtension
+        arguments: ["@request_stack", "@router"]
+        tags:
+            - { name: twig.extension }

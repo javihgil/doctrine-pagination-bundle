@@ -16,6 +16,8 @@
     },
     "require": {
         "symfony/http-kernel": "~2.5",
+        "symfony/routing": "~2.5",
+        "twig/twig": "~1.9",
         "javihgil/doctrine-pagination": "~1.0"
     },
     "scripts": {
