@@ -23,6 +23,10 @@ class PaginationParamConverterListener implements EventSubscriberInterface
         $controller = $event->getController();
         $request = $event->getRequest();
 
+        if (!is_array($controller)) {
+            return;
+        }
+
         $annotationReader = new AnnotationReader();
 
         $reflectionClass = new \ReflectionClass($controller[0]);
