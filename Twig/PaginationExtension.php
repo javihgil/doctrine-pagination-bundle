@@ -6,11 +6,13 @@ use Jhg\DoctrinePagination\Collection\PaginatedArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Class PaginationExtension
  */
-class PaginationExtension extends \Twig_Extension
+class PaginationExtension extends AbstractExtension
 {
     /**
      * @var RequestStack
@@ -48,13 +50,13 @@ class PaginationExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('next_page_url', [$this, 'getNextPageUrl']),
-            new \Twig_SimpleFunction('prev_page_url', [$this, 'getPrevPageUrl']),
-            new \Twig_SimpleFunction('page_url', [$this, 'getPageUrl']),
-            new \Twig_SimpleFunction('is_sorted_by', [$this, 'isSortedBy']),
-            new \Twig_SimpleFunction('is_ordered', [$this, 'isOrdered']),
-            new \Twig_SimpleFunction('sort_url', [$this, 'getSortUrl']),
-            new \Twig_SimpleFunction('sort_toggler_url', [$this, 'getSortTogglerUrl']),
+            new TwigFunction('next_page_url', [$this, 'getNextPageUrl']),
+            new TwigFunction('prev_page_url', [$this, 'getPrevPageUrl']),
+            new TwigFunction('page_url', [$this, 'getPageUrl']),
+            new TwigFunction('is_sorted_by', [$this, 'isSortedBy']),
+            new TwigFunction('is_ordered', [$this, 'isOrdered']),
+            new TwigFunction('sort_url', [$this, 'getSortUrl']),
+            new TwigFunction('sort_toggler_url', [$this, 'getSortTogglerUrl']),
         ];
     }
 
