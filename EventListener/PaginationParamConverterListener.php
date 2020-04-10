@@ -7,6 +7,7 @@ use Jhg\DoctrinePaginationBundle\Configuration as Pagination;
 use Jhg\DoctrinePaginationBundle\Request\RequestParam;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -16,17 +17,17 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class PaginationParamConverterListener implements EventSubscriberInterface
 {
     /**
-     * @param FilterControllerEvent $event
+     * @param ControllerEvent|FilterControllerEvent $event
      */
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController($event)
     {
-        $controller = $event->getController();
+        list($controller, $method) = $event->getController();
         $request = $event->getRequest();
 
         $annotationReader = new AnnotationReader();
 
-        $reflectionClass = new \ReflectionClass($controller[0]);
-        $reflectionMethod = $reflectionClass->getMethod($controller[1]);
+        $reflectionClass = new \ReflectionClass($controller);
+        $reflectionMethod = $reflectionClass->getMethod($method);
 
         $annotations = $annotationReader->getMethodAnnotations($reflectionMethod);
 
