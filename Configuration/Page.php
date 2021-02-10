@@ -3,8 +3,6 @@
 namespace Jhg\DoctrinePaginationBundle\Configuration;
 
 /**
- * Class Page
- *
  * @Annotation
  */
 class Page implements PaginationAnnotationInterface

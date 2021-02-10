@@ -9,9 +9,6 @@ use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/**
- * Class PaginationExtension
- */
 class PaginationExtension extends AbstractExtension
 {
     /**
@@ -24,29 +21,12 @@ class PaginationExtension extends AbstractExtension
      */
     protected $router;
 
-    /**
-     * PaginationExtension constructor.
-     *
-     * @param RequestStack    $requestStack
-     * @param RouterInterface $router
-     */
     public function __construct(RequestStack $requestStack, RouterInterface $router)
     {
         $this->requestStack = $requestStack;
         $this->router = $router;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'pagination';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions()
     {
         return [
@@ -60,57 +40,28 @@ class PaginationExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @param PaginatedArrayCollection $collection
-     * @param string                   $pageParameterName
-     * @param int                      $referenceType
-     *
-     * @return string|null
-     */
-    public function getNextPageUrl(PaginatedArrayCollection $collection, $pageParameterName = 'page', $referenceType = RouterInterface::ABSOLUTE_PATH)
+    public function getNextPageUrl(PaginatedArrayCollection $collection, string $pageParameterName = 'page', int $referenceType = RouterInterface::ABSOLUTE_PATH): ?string
     {
         $nextPage = $collection->getNextPage();
 
         return $nextPage ? $this->getPageUrl($nextPage, $pageParameterName, $referenceType) : null;
     }
 
-    /**
-     * @param PaginatedArrayCollection $collection
-     * @param string                   $pageParameterName
-     * @param int                      $referenceType
-     *
-     * @return string|null
-     */
-    public function getPrevPageUrl(PaginatedArrayCollection $collection, $pageParameterName = 'page', $referenceType = RouterInterface::ABSOLUTE_PATH)
+    public function getPrevPageUrl(PaginatedArrayCollection $collection, string $pageParameterName = 'page', int $referenceType = RouterInterface::ABSOLUTE_PATH): ?string
     {
         $prevPage = $collection->getPrevPage();
 
         return $prevPage ? $this->getPageUrl($prevPage, $pageParameterName, $referenceType) : null;
     }
 
-    /**
-     * @param int    $page
-     * @param string $pageParameterName
-     * @param int    $referenceType
-     *
-     * @return string
-     */
-    public function getPageUrl($page, $pageParameterName = 'page', $referenceType = RouterInterface::ABSOLUTE_PATH)
+    public function getPageUrl(int $page, string $pageParameterName = 'page', int $referenceType = RouterInterface::ABSOLUTE_PATH): string
     {
         $params = array_merge($this->getRequest()->attributes->get('_route_params'), $this->getRequest()->query->all(), [$pageParameterName=>$page]);
 
         return $this->router->generate($this->getRequest()->attributes->get('_route'), $params, $referenceType);
     }
 
-    /**
-     * @param string      $sortValue
-     * @param string|null $orderValue
-     * @param string      $sortParameterName
-     * @param string      $orderParameterName
-     *
-     * @return bool
-     */
-    public function isSortedBy($sortValue, $orderValue = null, $sortParameterName = 'sort', $orderParameterName = 'order')
+    public function isSortedBy(string $sortValue, ?string $orderValue = null, string $sortParameterName = 'sort', string $orderParameterName = 'order'): bool
     {
         if ($orderValue && !$this->isOrdered($orderValue, $orderParameterName)) {
             return false;
@@ -119,28 +70,12 @@ class PaginationExtension extends AbstractExtension
         return $this->getRequest()->query->get($sortParameterName) == $sortValue;
     }
 
-    /**
-     * @param string $orderValue
-     * @param string $orderParameterName
-     *
-     * @return bool
-     */
-    public function isOrdered($orderValue, $orderParameterName = 'order')
+    public function isOrdered(string $orderValue, string $orderParameterName = 'order'): bool
     {
         return $this->getRequest()->query->get($orderParameterName) == $orderValue;
     }
 
-    /**
-     * @param string $sort
-     * @param string $order
-     * @param string $sortParameterName
-     * @param string $orderParameterName
-     * @param string $pageParameterName
-     * @param int    $referenceType
-     *
-     * @return string
-     */
-    public function getSortUrl($sort, $order, $sortParameterName = 'sort', $orderParameterName = 'order', $pageParameterName = 'page', $referenceType = RouterInterface::ABSOLUTE_PATH)
+    public function getSortUrl(string $sort, string $order, string $sortParameterName = 'sort', string $orderParameterName = 'order', string $pageParameterName = 'page', int $referenceType = RouterInterface::ABSOLUTE_PATH): string
     {
         $params = array_merge(
             $this->getRequest()->attributes->get('_route_params'),
@@ -153,16 +88,7 @@ class PaginationExtension extends AbstractExtension
         return $this->router->generate($this->getRequest()->attributes->get('_route'), $params, $referenceType);
     }
 
-    /**
-     * @param string $sortValue
-     * @param string $sortParameterName
-     * @param string $orderParameterName
-     * @param string $pageParameterName
-     * @param int    $referenceType
-     *
-     * @return string
-     */
-    public function getSortTogglerUrl($sortValue, $sortParameterName = 'sort', $orderParameterName = 'order', $pageParameterName = 'page', $referenceType = RouterInterface::ABSOLUTE_PATH)
+    public function getSortTogglerUrl(string $sortValue, string $sortParameterName = 'sort', string $orderParameterName = 'order', string $pageParameterName = 'page', int $referenceType = RouterInterface::ABSOLUTE_PATH): string
     {
         if ($this->isSortedBy($sortValue, null, $sortParameterName)) {
             $inverseOrder = $this->isOrdered('asc', $orderParameterName) ? 'desc' : 'asc';
@@ -173,10 +99,7 @@ class PaginationExtension extends AbstractExtension
         }
     }
 
-    /**
-     * @return null|Request
-     */
-    protected function getRequest()
+    protected function getRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();
     }

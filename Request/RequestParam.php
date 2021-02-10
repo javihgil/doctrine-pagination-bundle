@@ -4,23 +4,19 @@ namespace Jhg\DoctrinePaginationBundle\Request;
 
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * Class RequestParam
- */
 class RequestParam
 {
     /**
-     * @param Request    $request
-     * @param string     $field
-     * @param string     $default
-     * @param array|null $validValues
-     * @param string     $cast
+     * @param Request     $request
+     * @param string      $field
+     * @param             $default
+     * @param array|null  $validValues
+     * @param string|null $cast
      *
      * @return int|string
-     *
      * @throws \Exception
      */
-    public static function getQueryValidParam(Request $request, $field, $default, array $validValues = null, $cast = null)
+    public static function getQueryValidParam(Request $request, string $field, $default, array $validValues = null, string $cast = null)
     {
         if (!$request->query->has($field)) {
             $request->query->set($field, $default);
@@ -52,13 +48,7 @@ class RequestParam
         return $value;
     }
 
-    /**
-     * @param Request $request
-     * @param string  $field
-     *
-     * @return int
-     */
-    public static function getQueryValidPage(Request $request, $field)
+    public static function getQueryValidPage(Request $request, string $field): int
     {
         $page = (int) $request->query->get($field, 1);
 

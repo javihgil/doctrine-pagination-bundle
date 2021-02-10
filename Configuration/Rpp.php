@@ -3,8 +3,6 @@
 namespace Jhg\DoctrinePaginationBundle\Configuration;
 
 /**
- * Class Rpp
- *
  * @Annotation
  */
 class Rpp implements PaginationAnnotationInterface

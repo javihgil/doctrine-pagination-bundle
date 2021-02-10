@@ -3,8 +3,6 @@
 namespace Jhg\DoctrinePaginationBundle\Configuration;
 
 /**
- * Class Sort
- *
  * @Annotation
  */
 class Sort implements PaginationAnnotationInterface

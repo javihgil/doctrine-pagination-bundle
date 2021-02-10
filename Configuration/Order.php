@@ -3,8 +3,6 @@
 namespace Jhg\DoctrinePaginationBundle\Configuration;
 
 /**
- * Class Order
- *
  * @Annotation
  */
 class Order implements PaginationAnnotationInterface
@@ -25,8 +23,6 @@ class Order implements PaginationAnnotationInterface
     protected $valid = ['asc', 'desc'];
 
     /**
-     * Page constructor.
-     *
      * @param array $values
      */
     public function __construct(array $values)

@@ -8,25 +8,17 @@ use Jhg\DoctrinePaginationBundle\Request\RequestParam;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-/**
- * Class PaginationParamConverterListener
- */
 class PaginationParamConverterListener implements EventSubscriberInterface
 {
     /**
-     * @param ControllerEvent|FilterControllerEvent $event
+     * @throws \ReflectionException
      */
-    public function onKernelController($event)
+    public function onKernelController(ControllerEvent $event)
     {
         list($controller, $method) = $event->getController();
         $request = $event->getRequest();
-
-        if (!is_array($controller)) {
-            return;
-        }
 
         $annotationReader = new AnnotationReader();
 
@@ -47,7 +39,7 @@ class PaginationParamConverterListener implements EventSubscriberInterface
      *
      * @return bool
      */
-    protected function supports($annotation)
+    protected function supports($annotation): bool
     {
         if ($annotation instanceof Pagination\PaginationAnnotationInterface) {
             return true;
@@ -60,6 +52,8 @@ class PaginationParamConverterListener implements EventSubscriberInterface
      * @param \ReflectionMethod $reflectionMethod
      * @param object            $annotation
      * @param Request           $request
+     *
+     * @throws \Exception
      */
     protected function parseAnnotation(\ReflectionMethod $reflectionMethod, $annotation, Request $request)
     {
@@ -85,9 +79,6 @@ class PaginationParamConverterListener implements EventSubscriberInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function getSubscribedEvents()
     {
         return array(
