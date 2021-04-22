@@ -3,6 +3,8 @@
 namespace Jhg\DoctrinePaginationBundle\Twig;
 
 use Jhg\DoctrinePagination\Collection\PaginatedArrayCollection;
+use Jhg\DoctrinePaginationBundle\Utils\Pager;
+use Jhg\Utils\Collapser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
@@ -37,6 +39,7 @@ class PaginationExtension extends AbstractExtension
             new TwigFunction('is_ordered', [$this, 'isOrdered']),
             new TwigFunction('sort_url', [$this, 'getSortUrl']),
             new TwigFunction('sort_toggler_url', [$this, 'getSortTogglerUrl']),
+            new TwigFunction('pages_collapsed', [$this, 'getPagesCollapsed']),
         ];
     }
 
@@ -97,6 +100,11 @@ class PaginationExtension extends AbstractExtension
         } else {
             return $this->getSortUrl($sortValue, 'asc', $sortParameterName, $orderParameterName, $pageParameterName, $referenceType);
         }
+    }
+
+    public function getPagesCollapsed(PaginatedArrayCollection $collection, int $elements = 5, bool $alwaysIncludeFirstAndLast = false): array
+    {
+        return Pager::collapse($collection, $elements, $alwaysIncludeFirstAndLast);
     }
 
     protected function getRequest(): ?Request
