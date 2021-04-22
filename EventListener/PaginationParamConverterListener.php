@@ -17,7 +17,14 @@ class PaginationParamConverterListener implements EventSubscriberInterface
      */
     public function onKernelController(ControllerEvent $event)
     {
-        list($controller, $method) = $event->getController();
+        if (is_array($controller = $event->getController())) {
+            list($controller, $method) = $controller;
+        } elseif (is_object($controller)) {
+            $method = '__invoke';
+        } else {
+            return;
+        }
+        
         $request = $event->getRequest();
 
         $annotationReader = new AnnotationReader();
