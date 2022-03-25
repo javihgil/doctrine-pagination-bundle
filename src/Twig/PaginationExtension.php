@@ -32,7 +32,8 @@ class PaginationExtension extends AbstractExtension
             new TwigFunction('is_sorted_by', [$this, 'isSortedBy']),
             new TwigFunction('is_ordered', [$this, 'isOrdered']),
             new TwigFunction('sort_url', [$this, 'getSortUrl']),
-            new TwigFunction('sort_toggler_url', [$this, 'getSortTogglerUrl']),
+            new TwigFunction('sort_toggler_url', [$this, 'getSortToggleUrl'], ['deprecated' => true, 'alternative' => 'sort_toggle_url']),
+            new TwigFunction('sort_toggle_url', [$this, 'getSortToggleUrl']),
             new TwigFunction('pages_collapsed', [$this, 'getPagesCollapsed']),
         ];
     }
@@ -85,7 +86,7 @@ class PaginationExtension extends AbstractExtension
         return $this->router->generate($this->getRequest()->attributes->get('_route'), $params, $referenceType);
     }
 
-    public function getSortTogglerUrl(string $sortValue, string $sortParameterName = 'sort', string $orderParameterName = 'order', string $pageParameterName = 'page', int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
+    public function getSortToggleUrl(string $sortValue, string $sortParameterName = 'sort', string $orderParameterName = 'order', string $pageParameterName = 'page', int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         if ($this->isSortedBy($sortValue, null, $sortParameterName)) {
             $inverseOrder = $this->isOrdered('asc', $orderParameterName) ? 'desc' : 'asc';
