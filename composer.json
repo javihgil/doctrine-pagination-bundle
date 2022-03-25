@@ -10,7 +10,7 @@
     },
     "require": {
         "php": "^7.3",
-        "javihgil/doctrine-pagination": "^1.1"
+        "javihgil/doctrine-pagination": "^2.0"
     },
     "require-dev": {
         "symfony/dependency-injection": "^4.0|^5.0",
