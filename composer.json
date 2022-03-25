@@ -5,18 +5,23 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Jhg\\DoctrinePaginationBundle\\": ""
+            "Jhg\\DoctrinePaginationBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jhg\\DoctrinePaginationBundle\\Tests\\": "tests/"
         }
     },
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "javihgil/doctrine-pagination": "^2.0"
     },
     "require-dev": {
-        "symfony/dependency-injection": "^4.0|^5.0",
-        "symfony/config": "^4.0|^5.0",
-        "symfony/http-kernel": "^4.0|^5.0",
-        "symfony/routing": "^4.0|^5.0",
+        "symfony/dependency-injection": "^5.4 || ^6.0",
+        "symfony/config": "^5.4 || ^6.0",
+        "symfony/http-kernel": "^5.4 || ^6.0",
+        "symfony/routing": "^5.4 || ^6.0",
         "twig/twig": "^2.12|^3.0",
         "phpunit/phpunit": "^9.5"
     },
