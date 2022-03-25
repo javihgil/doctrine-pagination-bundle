@@ -7,16 +7,8 @@ namespace Jhg\DoctrinePaginationBundle\Configuration;
  */
 class Page implements PaginationAnnotationInterface
 {
-    /**
-     * @var string
-     */
-    protected $paramName = 'page';
+    protected string $paramName = 'page';
 
-    /**
-     * Page constructor.
-     *
-     * @param array $values
-     */
     public function __construct(array $values)
     {
         if (isset($values['value'])) {
@@ -33,20 +25,12 @@ class Page implements PaginationAnnotationInterface
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getParamName()
+    public function getParamName(): string
     {
         return $this->paramName;
     }
 
-    /**
-     * @param string $paramName
-     *
-     * @return $this
-     */
-    public function setParamName($paramName)
+    public function setParamName(string $paramName): self
     {
         $this->paramName = $paramName;
 

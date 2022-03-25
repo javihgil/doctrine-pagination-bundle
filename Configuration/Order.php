@@ -7,24 +7,15 @@ namespace Jhg\DoctrinePaginationBundle\Configuration;
  */
 class Order implements PaginationAnnotationInterface
 {
-    /**
-     * @var string
-     */
-    protected $paramName = 'order';
+    protected string $paramName = 'order';
 
-    /**
-     * @var string
-     */
-    protected $default = 'asc';
+    protected string $default = 'asc';
 
     /**
      * @var string[]
      */
-    protected $valid = ['asc', 'desc'];
+    protected array $valid = ['asc', 'desc'];
 
-    /**
-     * @param array $values
-     */
     public function __construct(array $values)
     {
         if (isset($values['value'])) {
@@ -41,40 +32,24 @@ class Order implements PaginationAnnotationInterface
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getParamName()
+    public function getParamName(): string
     {
         return $this->paramName;
     }
 
-    /**
-     * @param string $paramName
-     *
-     * @return $this
-     */
-    public function setParamName($paramName)
+    public function setParamName(string $paramName): self
     {
         $this->paramName = $paramName;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDefault()
+    public function getDefault(): string
     {
         return $this->default;
     }
 
-    /**
-     * @param string $default
-     *
-     * @return $this
-     */
-    public function setDefault($default)
+    public function setDefault(string $default): self
     {
         $this->default = $default;
 
@@ -82,19 +57,17 @@ class Order implements PaginationAnnotationInterface
     }
 
     /**
-     * @return \string[]
+     * @return string[]
      */
-    public function getValid()
+    public function getValid(): array
     {
         return $this->valid;
     }
 
     /**
-     * @param \string[] $valid
-     *
-     * @return $this
+     * @param string[] $valid
      */
-    public function setValid($valid)
+    public function setValid(array $valid): self
     {
         $this->valid = $valid;
 
