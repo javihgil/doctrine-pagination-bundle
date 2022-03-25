@@ -6,7 +6,7 @@
 [![Total Downloads](https://poser.pugx.org/javihgil/doctrine-pagination-bundle/downloads)](https://packagist.org/packages/javihgil/doctrine-pagination-bundle)
 [![Build status](https://travis-ci.com/javihgil/doctrine-pagination-bundle.svg?branch=master)](https://travis-ci.com/javihgil/doctrine-pagination-bundle)
 
-This bundle helps to paginate doctrine results and use paginated collections.
+This bundle helps to paginate doctrine results and use paginated collections based on [javihgil/doctrine-pagination](https://github.com/javihgil/doctrine-pagination).
 
 ## Documentation
 
