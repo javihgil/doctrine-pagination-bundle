@@ -142,9 +142,9 @@ Returns either current url is sorted by a custom field:
 
 ```twig
 {% if is_sorted_by('field', 'asc') %}
-    <i class="icon-arrow-up></i>
+    <i class="icon-arrow-up"></i>
 {% if is_sorted_by('field', 'desc') %}
-    <i class="icon-arrow-down></i>
+    <i class="icon-arrow-down"></i>
 {% endif %}
 ```
 
@@ -160,9 +160,9 @@ Returns either current url is ordered in specified direction:
 
 ```twig
 {% if is_ordered('asc') %}
-    <i class="icon-arrow-up></i>
+    <i class="icon-arrow-up"></i>
 {% if is_ordered('desc') %}
-    <i class="icon-arrow-down></i>
+    <i class="icon-arrow-down"></i>
 {% endif %}
 ```
 
