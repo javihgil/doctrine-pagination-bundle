@@ -4,6 +4,7 @@ namespace Jhg\DoctrinePaginationBundle\EventListener;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Jhg\DoctrinePaginationBundle\Configuration as Pagination;
+use Jhg\DoctrinePaginationBundle\Request\InvalidCastingTypeException;
 use Jhg\DoctrinePaginationBundle\Request\RequestParam;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,12 +14,15 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class PaginationParamConverterListener implements EventSubscriberInterface
 {
     /**
+     * @param ControllerEvent $event
+     *
+     * @throws InvalidCastingTypeException
      * @throws \ReflectionException
      */
     public function onKernelController(ControllerEvent $event)
     {
         if (is_array($controller = $event->getController())) {
-            list($controller, $method) = $controller;
+            [$controller, $method] = $controller;
         } elseif (is_object($controller)) {
             $method = '__invoke';
         } else {
@@ -41,12 +45,7 @@ class PaginationParamConverterListener implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param object $annotation
-     *
-     * @return bool
-     */
-    protected function supports($annotation): bool
+    protected function supports(object $annotation): bool
     {
         if ($annotation instanceof Pagination\PaginationAnnotationInterface) {
             return true;
@@ -56,13 +55,9 @@ class PaginationParamConverterListener implements EventSubscriberInterface
     }
 
     /**
-     * @param \ReflectionMethod $reflectionMethod
-     * @param object            $annotation
-     * @param Request           $request
-     *
-     * @throws \Exception
+     * @throws InvalidCastingTypeException
      */
-    protected function parseAnnotation(\ReflectionMethod $reflectionMethod, $annotation, Request $request)
+    protected function parseAnnotation(\ReflectionMethod $reflectionMethod, object $annotation, Request $request)
     {
         switch (true) {
             case $annotation instanceof Pagination\Page:
@@ -86,7 +81,7 @@ class PaginationParamConverterListener implements EventSubscriberInterface
         }
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return array(
             KernelEvents::CONTROLLER => 'onKernelController',

@@ -7,16 +7,12 @@ use Symfony\Component\HttpFoundation\Request;
 class RequestParam
 {
     /**
-     * @param Request     $request
-     * @param string      $field
-     * @param             $default
-     * @param array|null  $validValues
-     * @param string|null $cast
+     * @param mixed $default
      *
      * @return int|string
-     * @throws \Exception
+     * @throws InvalidCastingTypeException
      */
-    public static function getQueryValidParam(Request $request, string $field, $default, array $validValues = null, string $cast = null)
+    public static function getQueryValidParam(Request $request, string $field, $default, ?array $validValues = null, ?string $cast = null)
     {
         if (!$request->query->has($field)) {
             $request->query->set($field, $default);
@@ -39,7 +35,7 @@ class RequestParam
                     break;
 
                 default:
-                    throw new \Exception('Invalid casting type for this method. Use: int|string');
+                    throw new InvalidCastingTypeException('Invalid casting type for this method. Use: int|string');
             }
         }
 
