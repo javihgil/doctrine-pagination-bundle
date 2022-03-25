@@ -4,24 +4,18 @@ namespace Jhg\DoctrinePaginationBundle\Twig;
 
 use Jhg\DoctrinePagination\Collection\PaginatedArrayCollection;
 use Jhg\DoctrinePaginationBundle\Utils\Pager;
-use Jhg\Utils\Collapser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class PaginationExtension extends AbstractExtension
 {
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
+    protected RequestStack $requestStack;
 
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
+    protected RouterInterface $router;
 
     public function __construct(RequestStack $requestStack, RouterInterface $router)
     {
@@ -29,7 +23,7 @@ class PaginationExtension extends AbstractExtension
         $this->router = $router;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('next_page_url', [$this, 'getNextPageUrl']),
@@ -43,21 +37,21 @@ class PaginationExtension extends AbstractExtension
         ];
     }
 
-    public function getNextPageUrl(PaginatedArrayCollection $collection, string $pageParameterName = 'page', int $referenceType = RouterInterface::ABSOLUTE_PATH): ?string
+    public function getNextPageUrl(PaginatedArrayCollection $collection, string $pageParameterName = 'page', int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): ?string
     {
         $nextPage = $collection->getNextPage();
 
         return $nextPage ? $this->getPageUrl($nextPage, $pageParameterName, $referenceType) : null;
     }
 
-    public function getPrevPageUrl(PaginatedArrayCollection $collection, string $pageParameterName = 'page', int $referenceType = RouterInterface::ABSOLUTE_PATH): ?string
+    public function getPrevPageUrl(PaginatedArrayCollection $collection, string $pageParameterName = 'page', int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): ?string
     {
         $prevPage = $collection->getPrevPage();
 
         return $prevPage ? $this->getPageUrl($prevPage, $pageParameterName, $referenceType) : null;
     }
 
-    public function getPageUrl(int $page, string $pageParameterName = 'page', int $referenceType = RouterInterface::ABSOLUTE_PATH): string
+    public function getPageUrl(int $page, string $pageParameterName = 'page', int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         $params = array_merge($this->getRequest()->attributes->get('_route_params'), $this->getRequest()->query->all(), [$pageParameterName=>$page]);
 
@@ -78,7 +72,7 @@ class PaginationExtension extends AbstractExtension
         return $this->getRequest()->query->get($orderParameterName) == $orderValue;
     }
 
-    public function getSortUrl(string $sort, string $order, string $sortParameterName = 'sort', string $orderParameterName = 'order', string $pageParameterName = 'page', int $referenceType = RouterInterface::ABSOLUTE_PATH): string
+    public function getSortUrl(string $sort, string $order, string $sortParameterName = 'sort', string $orderParameterName = 'order', string $pageParameterName = 'page', int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         $params = array_merge(
             $this->getRequest()->attributes->get('_route_params'),
@@ -91,7 +85,7 @@ class PaginationExtension extends AbstractExtension
         return $this->router->generate($this->getRequest()->attributes->get('_route'), $params, $referenceType);
     }
 
-    public function getSortTogglerUrl(string $sortValue, string $sortParameterName = 'sort', string $orderParameterName = 'order', string $pageParameterName = 'page', int $referenceType = RouterInterface::ABSOLUTE_PATH): string
+    public function getSortTogglerUrl(string $sortValue, string $sortParameterName = 'sort', string $orderParameterName = 'order', string $pageParameterName = 'page', int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         if ($this->isSortedBy($sortValue, null, $sortParameterName)) {
             $inverseOrder = $this->isOrdered('asc', $orderParameterName) ? 'desc' : 'asc';

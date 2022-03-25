@@ -2,7 +2,9 @@
 
 namespace Jhg\DoctrinePaginationBundle\Request;
 
-class InvalidCastingTypeException extends \Exception
+use Exception;
+
+class InvalidCastingTypeException extends Exception
 {
 
 }

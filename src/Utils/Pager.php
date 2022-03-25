@@ -2,6 +2,7 @@
 
 namespace Jhg\DoctrinePaginationBundle\Utils;
 
+use InvalidArgumentException;
 use Jhg\DoctrinePagination\Collection\PaginatedArrayCollection;
 
 class Pager
@@ -9,11 +10,11 @@ class Pager
     public static function collapse(PaginatedArrayCollection $collection, int $elements = 5, bool $alwaysIncludeFirstAndLast = false): array
     {
         if ($elements < 5) {
-            throw new \Exception('Min elements to show in pager is 5');
+            throw new InvalidArgumentException('Min elements to show in pager is 5');
         }
 
         $current = (int)$collection->getPage();
-        $pages = (int)$collection->getPages();
+        $pages = $collection->getPages();
         $pagesArray = range(1, $pages);
 
         if ($pages <= $elements) {
@@ -36,7 +37,7 @@ class Pager
         $pagesArray = array_slice($pagesArray, $start - 1, $elements);
 
         if ($alwaysIncludeFirstAndLast) {
-            // add null at the begining
+            // add null at the beginning
             if ($pagesArray[0] != 1) {
                 array_shift($pagesArray);
                 array_unshift($pagesArray, 1);
@@ -44,7 +45,7 @@ class Pager
                     $pagesArray[1] = null;
                 }
             }
-            // add null at the begining
+            // add null at the beginning
             if ($pagesArray[$elements-1] != $pages) {
                 array_pop($pagesArray);
                 array_push($pagesArray, $pages);
@@ -54,11 +55,11 @@ class Pager
                 }
             }
         } else {
-            // add null at the begining
+            // add null at the beginning
             if ($pagesArray[0] != 1) {
                 $pagesArray[0] = null;
             }
-            // add null at the begining
+            // add null at the beginning
             if ($pagesArray[$elements-1] != $pages) {
                 $pagesArray[$elements-1] = null;
             }

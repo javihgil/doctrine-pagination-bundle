@@ -5,7 +5,6 @@ namespace Jhg\DoctrinePaginationBundle\Tests\Utils;
 use Jhg\DoctrinePagination\Collection\PaginatedArrayCollection;
 use Jhg\DoctrinePaginationBundle\Utils\Pager;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Request;
 
 class PagerTest extends TestCase
 {

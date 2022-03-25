@@ -6,6 +6,9 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Jhg\DoctrinePaginationBundle\Configuration as Pagination;
 use Jhg\DoctrinePaginationBundle\Request\InvalidCastingTypeException;
 use Jhg\DoctrinePaginationBundle\Request\RequestParam;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -17,7 +20,7 @@ class PaginationParamConverterListener implements EventSubscriberInterface
      * @param ControllerEvent $event
      *
      * @throws InvalidCastingTypeException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function onKernelController(ControllerEvent $event)
     {
@@ -33,7 +36,7 @@ class PaginationParamConverterListener implements EventSubscriberInterface
 
         $annotationReader = new AnnotationReader();
 
-        $reflectionClass = new \ReflectionClass($controller);
+        $reflectionClass = new ReflectionClass($controller);
         $reflectionMethod = $reflectionClass->getMethod($method);
 
         $annotations = $annotationReader->getMethodAnnotations($reflectionMethod);
@@ -57,7 +60,7 @@ class PaginationParamConverterListener implements EventSubscriberInterface
     /**
      * @throws InvalidCastingTypeException
      */
-    protected function parseAnnotation(\ReflectionMethod $reflectionMethod, object $annotation, Request $request)
+    protected function parseAnnotation(ReflectionMethod $reflectionMethod, object $annotation, Request $request)
     {
         switch (true) {
             case $annotation instanceof Pagination\Page:
