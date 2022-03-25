@@ -1,13 +1,5 @@
 # Twig helper functions
 
-Since 2.0 version, twig functions are enabled by default. You can disable them with:
-
-```yaml
-# config/packages/jhg_doctrine_pagination.yaml
-jhg_doctrine_pagination:
-    twig_functions: false
-```
-
 ## Pagination functions
 
 ### page_url()
@@ -217,3 +209,13 @@ You can change the default param names passing arguments (defaults are sort, ord
 ```
 
 As last argument, it accepts a UrlGeneratorInterface url type (absolute, path, relative or network, path by default).
+
+## Disable functions
+
+Since 2.0 version, twig functions are enabled by default. You can disable them with:
+
+```yaml
+# config/packages/jhg_doctrine_pagination.yaml
+jhg_doctrine_pagination:
+    twig_functions: false
+```
