@@ -3,6 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/javihgil/doctrine-pagination-bundle/v/stable.svg)](https://packagist.org/packages/javihgil/doctrine-pagination-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/javihgil/doctrine-pagination-bundle/v/unstable.svg)](https://packagist.org/packages/javihgil/doctrine-pagination-bundle)
 [![License](https://poser.pugx.org/javihgil/doctrine-pagination-bundle/license.svg)](https://packagist.org/packages/javihgil/doctrine-pagination-bundle)
+[![PHP Version Require](http://poser.pugx.org/javihgil/doctrine-pagination-bundle/require/php)](https://packagist.org/packages/javihgil/doctrine-pagination-bundle)
 [![Total Downloads](https://poser.pugx.org/javihgil/doctrine-pagination-bundle/downloads)](https://packagist.org/packages/javihgil/doctrine-pagination-bundle)
 [![Build status](https://travis-ci.com/javihgil/doctrine-pagination-bundle.svg?branch=master)](https://travis-ci.com/javihgil/doctrine-pagination-bundle)
 
@@ -17,4 +18,4 @@ This bundle helps to paginate doctrine results and use paginated collections bas
 
 ## License
 
-This bundle is under the MIT license. See the complete license in the bundle LICENSE file.
+This bundle is under the MIT license. See the complete license in the bundle [LICENSE](LICENSE) file.
