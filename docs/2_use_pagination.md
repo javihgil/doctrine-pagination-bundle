@@ -4,6 +4,15 @@
 
 To configure your repository read [DoctrinePagination documentation](https://github.com/javihgil/doctrine-pagination)
 
+Also, you can use PaginatedRepository as default repository class:
+
+```yaml
+# config/packages/doctrine.yaml
+doctrine:
+    orm:
+        default_repository_class: Jhg\DoctrinePagination\ORM\PaginatedRepository
+```
+
 ## Controller
 
 ```php
