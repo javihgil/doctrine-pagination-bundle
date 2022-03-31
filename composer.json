@@ -14,7 +14,7 @@
         }
     },
     "require": {
-        "php": "^7.4",
+        "php": ">=7.4",
         "javihgil/doctrine-pagination": "^2.0"
     },
     "require-dev": {
